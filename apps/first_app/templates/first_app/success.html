@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>success page</title>
+  </head>
+  <body>
+    <h1>Welcome, {{current_user.name}}!</h1>
+    <a href="/logout">Logout</a>
+
+    <h3>Here is a list of all your friends:</h3>
+    {% for friend in friends %}
+      <p>{{friend.name}}</p>
+      <p><form action="/remove-friend/{{ friend.id }}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="Remove as friend" />
+      </form></p>
+      <form action="/view-friendprofile/{{ friend.id }}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="View profile" />
+      </form>
+    {% endfor %}
+
+   <h3>Other users not on your friends list:</h3>
+    {% for user in users %}
+      <p>{{user.name}}</p>
+        <p><form action="/add-friend/{{ user.id }}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="Add as friend" />
+        </form></p>
+        <form action="/view-profile/{{ user.id }}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="View Profile" />
+        </form>
+    {% endfor %}
+
+  </body>
+</html>
